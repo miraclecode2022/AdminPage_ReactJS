@@ -11,7 +11,7 @@ class App extends Component {
       <React.Fragment>
         <Switch>
           <Route path="/" exact component={LoginPage}/>
-          <Route path="/AdminPage" component={AdminPage}/>
+          <Route path="/dashboard" component={AdminPage}/>
         </Switch>
       </React.Fragment>
     );
