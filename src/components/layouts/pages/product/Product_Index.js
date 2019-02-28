@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Product_Table from './Product_Table'
+import ProductTable from './ProductTable'
 
 class Product_Index extends Component {
     render() {
@@ -8,7 +8,7 @@ class Product_Index extends Component {
                 <h1 className="mt-4">Products Page</h1>
                 <div className="row">
                     <div className="col-xs-6 col-md-12">
-                        <Product_Table/>
+                        <ProductTable />
                     </div>
                 </div>
             </div>
