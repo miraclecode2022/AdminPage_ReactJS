@@ -92,7 +92,7 @@ class Popup extends Component {
             <div className='popup'>
                 <div className='popup_inner'>
                     <div className="popup_header">
-                        <h1>{this.props.text}</h1>
+                        <h2>{this.props.text}</h2>
                         <span onClick={this.props.closePopup}><i className="fa fa-close fa-2x"></i></span>
                     </div>
                     <form onSubmit={this.handleUpdate}>
