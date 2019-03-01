@@ -1,41 +1,40 @@
 import React, { Component } from 'react';
-import ProductTable from './ProductTable'
+import User_Table from './User_Table'
 import '../../../../css/Popup.scss'
 
-class Product_Index extends Component {
-    constructor(props){
-        super(props)
+class User_Index extends Component {
+    constructor(props) {
+        super(props);
         this.state = {
             isPopup: false,
             isReload: false
         }
     }
-
     togglePopup = () => {
         this.setState({
             isPopup: !this.state.isPopup,
         }, () => {this.reloadChild()})
     }
 
+
     render() {
         return (
             <div className="container-fluid">
-                <h1 className="mt-4">Products Page</h1>
-                <button className="btn btn-lg btn-success mb-2" onClick={this.togglePopup}>Add new product</button>
-                <div className="row">
-                    <div className="col-xs-6 col-md-12">
-                        <ProductTable reload={reload => this.reloadChild = reload} />
-                    </div>
+            <h1 className="mt-4">Users Page</h1>
+            <button className="btn btn-lg btn-success mb-2" onClick={this.togglePopup}>Add new User</button>
+            <div className="row">
+                <div className="col-xs-6 col-md-12">
+                    <User_Table reload={reload => this.reloadChild = reload} />
                 </div>
-                
-                {
+            </div>
+            {
                     this.state.isPopup
                     ?
-                        <Popup text="Add New Product" closePopup={this.togglePopup} />
+                        <Popup text="Add New User" closePopup={this.togglePopup} />
                     :
                         null
-                }
-            </div>
+            }
+        </div>
         );
     }
 }
@@ -44,10 +43,9 @@ class Popup extends Component {
     constructor(props){
         super(props)
         this.state = {
-            namePro: "",
-            pricePro: "",
-            typePro: 0,
-            descPro: "",
+            nameUser: "",
+            emailUser: "",
+            password: ""
         }
     }
 
@@ -61,19 +59,19 @@ class Popup extends Component {
         this.props.closePopup()
     }
 
+
     handleUpdate = (e) => {
         e.preventDefault()
-        fetch(`http://localhost:8080/products/create`, {
+        fetch(`http://localhost:8080/users/register`, {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json",
                 "Authorization" : `Bearer ${localStorage.getItem("access_token")}`
             },
             body: JSON.stringify({
-                "name": this.state.namePro,
-                "price": this.state.pricePro,
-                "type": this.state.typePro,
-                "desc": this.state.descPro
+                "name": this.state.nameUser,
+                "email": this.state.emailUser,
+                "password": this.state.password
             })
         })
         .then(result => result.json())
@@ -98,24 +96,18 @@ class Popup extends Component {
                     <form onSubmit={this.handleUpdate}>
                         <div className="form-row">
                             <div className="form-group col-md-6">
-                                <label htmlFor="namePro">Name Product</label>
-                                <input type="text" className="form-control" id="namePro" name="namePro" placeholder="Name product" onChange={this.handleChange} required />
+                                <label htmlFor="nameUser">User Name</label>
+                                <input type="text" className="form-control" id="nameUser" name="nameUser" placeholder="User Name" onChange={this.handleChange} required />
                             </div>
                             <div className="form-group col-md-6">
-                                <label htmlFor="pricePro">Price</label>
-                                <input type="number" className="form-control" id="pricePro" name="pricePro" placeholder="Price" onChange={this.handleChange} required />
+                                <label htmlFor="emailUser">Email</label>
+                                <input type="text" className="form-control" id="emailUser" name="emailUser" placeholder="Email" onChange={this.handleChange} required />
                             </div>
                             <div className="form-group col-md-12">
-                                <label htmlFor="descPro">Description</label>
-                                <textarea className="form-control" name="descPro" id="descPro" onChange={this.handleChange} value={this.state.descPro}></textarea>
+                                <label htmlFor="password">Password</label>
+                                <input type="password" className="form-control" id="password" name="password" placeholder="Password" onChange={this.handleChange} required />
                             </div>
-                            <div className="form-group col-md-6">
-                                <label htmlFor="typePro">Type</label>
-                                <select id="typePro" name="typePro" value="0" className="form-control" onChange={this.handleChange} >
-                                    <option value="0">Coofee</option>
-                                    <option value="1">Tea</option>
-                                </select>
-                            </div>
+                            
                         </div>
                         <button type="submit" className="btn btn-primary">Add</button>
                     </form>
@@ -125,4 +117,4 @@ class Popup extends Component {
     }
 }
 
-export default Product_Index;
+export default User_Index;

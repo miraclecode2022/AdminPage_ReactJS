@@ -8,6 +8,7 @@ const MLeft = (value) => {
             <div className="sidebar-heading">Start Bootstrap </div>
             <div className="list-group list-group-flush">
                 <Link to="/" className="list-group-item list-group-item-action bg-light">Dashboard</Link>
+                <Link to="/dashboard/user" className="list-group-item list-group-item-action bg-light">Users</Link>
                 <Link to="/dashboard/product" className="list-group-item list-group-item-action bg-light">Products</Link>
                 <Link onClick={handleLogout} to="#logout" className="list-group-item list-group-item-action bg-light">Logout</Link>
             </div>

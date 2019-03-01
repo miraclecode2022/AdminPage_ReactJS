@@ -9,6 +9,7 @@ import Footer from './Footer'
 import MLeft from './MLeft'
 import Index from './pages/Index'
 import Product_Index from './pages/product/Product_Index'
+import User_Index from './pages/user/User_Index'
 
 class AdminPage extends Component {
     componentDidMount = async() => {
@@ -35,6 +36,7 @@ class AdminPage extends Component {
                                 <Switch>
                                     <Route path='/dashboard' exact component={Index} />
                                     <Route path='/dashboard/product' component={Product_Index} />
+                                    <Route path='/dashboard/user' component={User_Index} />
                                 </Switch>
                                 <Footer/>
                             </div>

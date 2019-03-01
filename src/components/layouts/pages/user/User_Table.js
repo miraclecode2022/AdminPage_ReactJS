@@ -1,25 +1,24 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import '../../../../css/Popup.scss'
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'
-import '../../../../css/Popup.scss'
 
-class ProductTable extends Component {
-    constructor(props){
+class User_Table extends Component {
+    constructor(props) {
         super(props);
         this.state = {
-            products: [],
+            users : [],
             isPopup: false,
-            productId: ""
+            userId: ""
         }
     }
-    
     componentDidMount(){
-        this.getListProduct()
-        this.props.reload(this.getListProduct);
+        this.getListUser()
+        this.props.reload(this.getListUser);
     }
 
-    getListProduct = () => {
-        fetch(`http://localhost:8080/products`, {
+    getListUser = () => {
+        fetch(`http://localhost:8080/users`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -28,39 +27,30 @@ class ProductTable extends Component {
         .then(result => result.json())
         .then(result => {
             if(result.count > 0){
-                this.setState({ products: result.products })
+                this.setState({ users: result.users })
             }
         })
         .catch(err => {
             console.log(err)
         })
     }
-
-    typeProduct = (type) => {
-        if(type === 0){
-            return "Coffee"
-        }
-        else if(type === 1){
-            return "Tea"
-        }
-    }
-
+    
     togglePopup = (id) => {
         this.setState({
             isPopup: !this.state.isPopup,
-            productId: id
-        }, () => this.getListProduct())
+            userId: id
+        }, () => this.getListUser())
     }
 
     removeProduct = (id) => {
         confirmAlert({
-            title: 'Remove product',
-            message: 'Do you want this product ?',
+            title: 'Remove User',
+            message: 'Do you want this user ?',
             buttons: [
                 {
                     label: 'Yes',
                     onClick: () => {
-                        fetch(`http://localhost:8080/products/${id}` , {
+                        fetch(`http://localhost:8080/users/${id}` , {
                             method: "DELETE",
                             headers: {
                                 "Content-Type" : "application/json",
@@ -70,7 +60,7 @@ class ProductTable extends Component {
                         .then(result => result.json())
                         .then(result => {
                             if(result.msg){
-                                this.getListProduct()
+                                this.getListUser()
                             }
                         })
                         .catch(err => {
@@ -91,22 +81,20 @@ class ProductTable extends Component {
                 <table className="table table-sm table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th>Image</th>
                             <th>Name</th>
-                            <th>Type</th>
-                            <th>Price</th>
+                            <th>Email</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                     {
-                        this.state.products && this.state.products.length ? this.state.products.map((d) => {
+                        this.state.users && this.state.users.length 
+                        ? 
+                        this.state.users.map((d) => {
                             return(
                                 <tr key={d._id}>
-                                    <td>{d.image}</td>
                                     <td>{d.name}</td>
-                                    <td>{this.typeProduct(d.type)}</td>
-                                    <td>${d.price}</td>
+                                    <td>{d.email}</td>
                                     <td>
                                         <button className="btn btn-primary mr-1" onClick={() => this.togglePopup(d._id)} type="button">Edit</button>
                                         <button className="btn btn-danger" type="button" onClick={() => this.removeProduct(d._id)} >Remove</button>
@@ -117,7 +105,7 @@ class ProductTable extends Component {
                         :
                         <tr>
                             <td colSpan={5}>
-                                <h5 className="text-center text-danger">No products</h5>
+                                <h5 className="text-center text-danger">No Users</h5>
                             </td>
                         </tr>
                     }
@@ -126,27 +114,27 @@ class ProductTable extends Component {
                 {
                     this.state.isPopup
                     ?
-                        <Popup text="Edit Product" closePopup={() => this.togglePopup(this.state.productId)} productId={this.state.productId} />
+                        <Popup text="Edit User" closePopup={() => this.togglePopup(this.state.userId)} userId={this.state.userId} />
                     :
                         null
                 }
             </div>
+        
         );
     }
 }
+
 
 class Popup extends Component {
     constructor(props){
         super(props)
         this.state = {
-            namePro: "",
-            pricePro: "",
-            typePro: 0,
-            descPro: "",
-            product: []
+            nameUser: "",
+            emailUser: "",
+            password: "",
+            user: []
         }
     }
-
     handleChange = (e) => {
         this.setState({
             [e.target.name] : e.target.value
@@ -158,8 +146,10 @@ class Popup extends Component {
         this.props.closePopup()
     }
 
+
+    // Cycle life trc khi render sẽ chạy dòng dày để get user theo id
     componentDidMount = () => {
-        fetch(`http://localhost:8080/products/${this.props.productId}` , {
+        fetch(`http://localhost:8080/users/${this.props.userId}` , {
             method: "GET",
             headers: {
                 "Content-Type" : "application/json"
@@ -167,12 +157,10 @@ class Popup extends Component {
         })
         .then(result => result.json())
         .then(result => {
-            if(result.product){
+            if(result.user){
                 this.setState({
-                    namePro: result.product.name,
-                    pricePro: result.product.price,
-                    typePro: result.product.type,
-                    descPro: result.product.desc
+                    nameUser: result.user.name,
+                    emailUser: result.user.email
                 })
             }
         })
@@ -180,20 +168,18 @@ class Popup extends Component {
             console.log(err)
         })
     }
-
+    
     handleUpdate = (e) => {
         e.preventDefault()
-        fetch(`http://localhost:8080/products/${this.props.productId}`, {
+        fetch(`http://localhost:8080/users/${this.props.userId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type" : "application/json",
                 "Authorization" : `Bearer ${localStorage.getItem("access_token")}`
             },
             body: JSON.stringify({
-                "name": this.state.namePro,
-                "price": this.state.pricePro,
-                "type": this.state.typePro,
-                "desc": this.state.descPro
+                name: this.state.nameUser,
+                email: this.state.emailUser
             })
         })
         .then(result => result.json())
@@ -218,31 +204,24 @@ class Popup extends Component {
                     <form onSubmit={this.handleUpdate}>
                         <div className="form-row">
                             <div className="form-group col-md-6">
-                                <label htmlFor="namePro">Name Product</label>
-                                <input type="text" className="form-control" id="namePro" name="namePro" placeholder="Name product" onChange={this.handleChange} value={this.state.namePro} />
+                                <label htmlFor="nameUser">User Name</label>
+                                <input type="text" className="form-control" id="nameUser" name="nameUser" placeholder="User Name" onChange={this.handleChange} value={this.state.nameUser} />
                             </div>
                             <div className="form-group col-md-6">
-                                <label htmlFor="pricePro">Price</label>
-                                <input type="number" className="form-control" id="pricePro" name="pricePro" placeholder="Price" onChange={this.handleChange} value={this.state.pricePro} />
-                            </div>
-                            <div className="form-group col-md-12">
-                                <label htmlFor="descPro">Description</label>
-                                <textarea className="form-control" name="descPro" id="descPro" onChange={this.handleChange} value={this.state.descPro}></textarea>
-                            </div>
-                            <div className="form-group col-md-6">
-                                <label htmlFor="typePro">Type</label>
-                                <select id="typePro" name="typePro" value={this.state.typePro} className="form-control" onChange={this.handleChange} >
-                                    <option value="0">Coofee</option>
-                                    <option value="1">Tea</option>
-                                </select>
+                                <label htmlFor="emailUser">Email</label>
+                                <input type="text" className="form-control" id="emailUser" name="emailUser" placeholder="Email" onChange={this.handleChange} value={this.state.emailUser} />
                             </div>
                         </div>
                         <button type="submit" className="btn btn-primary">Upadate</button>
                     </form>
+                
                 </div>
             </div>
         )
     }
 }
 
-export default ProductTable;
+
+
+
+export default User_Table;
