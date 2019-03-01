@@ -10,9 +10,10 @@ class ProductTable extends Component {
             productId: ""
         }
     }
-
+    
     componentDidMount(){
         this.getListProduct()
+        this.props.reload(this.getListProduct);
     }
 
     getListProduct = () => {
@@ -47,6 +48,12 @@ class ProductTable extends Component {
             isPopup: !this.state.isPopup,
             productId: id
         }, () => this.getListProduct())
+    }
+
+    reloadProduct = (props) => {
+        if(props){
+            this.getListProduct()
+        }
     }
 
     render() {
@@ -106,6 +113,7 @@ class Popup extends Component {
             namePro: "",
             pricePro: "",
             typePro: 0,
+            descPro: "",
             product: []
         }
     }
@@ -114,7 +122,6 @@ class Popup extends Component {
         this.setState({
             [e.target.name] : e.target.value
         })
-        console.log(e.target.value)
     }
 
     removeItem() {
@@ -134,7 +141,9 @@ class Popup extends Component {
             if(result.product){
                 this.setState({
                     namePro: result.product.name,
-                    pricePro: result.product.price
+                    pricePro: result.product.price,
+                    typePro: result.product.type,
+                    descPro: result.product.desc
                 })
             }
         })
@@ -153,7 +162,9 @@ class Popup extends Component {
             },
             body: JSON.stringify({
                 "name": this.state.namePro,
-                "price": this.state.pricePro
+                "price": this.state.pricePro,
+                "type": this.state.typePro,
+                "desc": this.state.descPro
             })
         })
         .then(result => result.json())
@@ -179,15 +190,19 @@ class Popup extends Component {
                         <div className="form-row">
                             <div className="form-group col-md-6">
                                 <label htmlFor="namePro">Name Product</label>
-                                <input type="text" value={this.state.namePro} className="form-control" id="namePro" name="namePro" placeholder="Name product" onChange={this.handleChange} />
+                                <input type="text" className="form-control" id="namePro" name="namePro" placeholder="Name product" onChange={this.handleChange} value={this.state.namePro} />
                             </div>
                             <div className="form-group col-md-6">
                                 <label htmlFor="pricePro">Price</label>
-                                <input type="number" value={this.state.pricePro} className="form-control" id="pricePro" name="pricePro" placeholder="Price" onChange={this.handleChange} />
+                                <input type="number" className="form-control" id="pricePro" name="pricePro" placeholder="Price" onChange={this.handleChange} value={this.state.pricePro} />
+                            </div>
+                            <div className="form-group col-md-12">
+                                <label htmlFor="descPro">Description</label>
+                                <textarea className="form-control" name="descPro" id="descPro" onChange={this.handleChange} value={this.state.descPro}></textarea>
                             </div>
                             <div className="form-group col-md-6">
                                 <label htmlFor="typePro">Type</label>
-                                <select id="typePro" name="typePro" defaultValue="0" className="form-control" onChange={this.handleChange} >
+                                <select id="typePro" name="typePro" value={this.state.typePro} className="form-control" onChange={this.handleChange} >
                                     <option value="0">Coofee</option>
                                     <option value="1">Tea</option>
                                 </select>
