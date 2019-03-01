@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'
 import '../../../../css/Popup.scss'
 
 class ProductTable extends Component {
@@ -56,6 +58,39 @@ class ProductTable extends Component {
         }
     }
 
+    removeProduct = (id) => {
+        confirmAlert({
+            title: 'Remove product',
+            message: 'Do you want this product ?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => {
+                        fetch(`http://localhost:8080/products/${id}` , {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type" : "application/json",
+                                "Authorization" : `Bearer ${localStorage.getItem("access_token")}`
+                            }
+                        })
+                        .then(result => result.json())
+                        .then(result => {
+                            if(result.msg){
+                                this.getListProduct()
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                    }
+                },
+                {
+                    label: 'No',
+                }
+            ]
+        })
+    }
+
     render() {
         return (
             <div className="table-responsive">
@@ -79,8 +114,8 @@ class ProductTable extends Component {
                                     <td>{this.typeProduct(d.type)}</td>
                                     <td>${d.price}</td>
                                     <td>
-                                    <button className="btn btn-primary mr-1" onClick={() => this.togglePopup(d._id)} type="button">Edit</button>
-                                        <button className="btn btn-danger" type="button">Remove</button>
+                                        <button className="btn btn-primary mr-1" onClick={() => this.togglePopup(d._id)} type="button">Edit</button>
+                                        <button className="btn btn-danger" type="button" onClick={() => this.removeProduct(d._id)} >Remove</button>
                                     </td>
                                 </tr>
                             )
