@@ -5,7 +5,7 @@ const MLeft = (value) => {
     const { handleLogout } = value.value
     return (
         <div className="bg-light border-right" id="sidebar-wrapper">
-            <div className="sidebar-heading">Start Bootstrap </div>
+            <div className="sidebar-heading">Coffee Code </div>
             <div className="list-group list-group-flush">
                 <Link to="/" className="list-group-item list-group-item-action bg-light">Dashboard</Link>
                 <Link to="/dashboard/user" className="list-group-item list-group-item-action bg-light">Users</Link>
