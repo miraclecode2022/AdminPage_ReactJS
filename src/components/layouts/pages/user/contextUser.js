@@ -47,7 +47,7 @@ class UserProvider extends Component {
     }
 
     getListUser = () => {
-        fetch(`http://localhost:8080/users`, {
+        fetch(`https://coffee-code-6868.herokuapp.com/users`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -65,7 +65,7 @@ class UserProvider extends Component {
     }
 
     getUserById = (id) => {
-        fetch(`http://localhost:8080/users/${id}` , {
+        fetch(`https://coffee-code-6868.herokuapp.com/users/${id}` , {
             method: "GET",
             headers: {
                 "Content-Type" : "application/json"
@@ -120,7 +120,7 @@ class UserProvider extends Component {
 
     handleUpdate = (e) => {
         e.preventDefault()
-        fetch(`http://localhost:8080/users/${this.state.userId}`, {
+        fetch(`https://coffee-code-6868.herokuapp.com/users/${this.state.userId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type" : "application/json",
@@ -144,7 +144,7 @@ class UserProvider extends Component {
 
     handleCreate = (e) => {
         e.preventDefault()
-        fetch(`http://localhost:8080/users/register`, {
+        fetch(`https://coffee-code-6868.herokuapp.com/users/register`, {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json",

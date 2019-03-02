@@ -115,6 +115,10 @@ class Popup extends Component {
                                                 <option value="1">Tea</option>
                                             </select>
                                         </div>
+                                        <div className="form-group col-md-6">
+                                            <label htmlFor="imagePro">Image</label>
+                                            <input type="file" name="imagePro" id="imagePro" onChange={c.handleSelectImage} />
+                                        </div>
                                     </div>
                                     <button type="submit" className="btn btn-primary">{c.typePopup ? "Update" : "Add"}</button>
                                 </form>

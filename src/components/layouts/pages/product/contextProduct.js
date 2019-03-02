@@ -16,6 +16,7 @@ class ProductProvider extends Component {
             pricePro: "",
             typePro: 0,
             descPro: "",
+            imagePro: null
         }
     }
 
@@ -26,6 +27,12 @@ class ProductProvider extends Component {
     handleChange = (e) => {
         this.setState({
             [e.target.name] : e.target.value
+        })
+    }
+
+    handleSelectImage = (e) => {
+        this.setState({
+            imagePro : e.target.files[0]
         })
     }
 
@@ -131,23 +138,25 @@ class ProductProvider extends Component {
     }
 
     handleCreateProduct = (e) => {
+        console.log(this.state)
         e.preventDefault()
+        const fd = new FormData()
+        fd.append("name", this.state.namePro)
+        fd.append("price", this.state.pricePro)
+        fd.append("type", this.state.typePro)
+        fd.append("desc", this.state.descPro)
+        fd.append("image", this.state.imagePro)
         fetch(`http://localhost:8080/products/create`, {
             method: "POST",
             headers: {
-                "Content-Type" : "application/json",
                 "Authorization" : `Bearer ${localStorage.getItem("access_token")}`
             },
-            body: JSON.stringify({
-                "name": this.state.namePro,
-                "price": this.state.pricePro,
-                "type": this.state.typePro,
-                "desc": this.state.descPro
-            })
+            mimeType: "multipart/form-data" ,
+            body: fd
         })
         .then(result => result.json())
         .then(result => {
-            if(result.msg){
+            if(result.status){
                 this.setState({
                     isPopup: false
                 }, () => this.getListProduct())
@@ -160,22 +169,22 @@ class ProductProvider extends Component {
 
     handleUpdate = (e) => {
         e.preventDefault()
+        const fd = new FormData()
+        fd.append("name", this.state.namePro)
+        fd.append("price", this.state.pricePro)
+        fd.append("type", this.state.typePro)
+        fd.append("desc", this.state.descPro)
+        fd.append("image", this.state.imagePro)
         fetch(`http://localhost:8080/products/${this.state.productId}`, {
             method: "PATCH",
             headers: {
-                "Content-Type" : "application/json",
                 "Authorization" : `Bearer ${localStorage.getItem("access_token")}`
             },
-            body: JSON.stringify({
-                "name": this.state.namePro,
-                "price": this.state.pricePro,
-                "type": this.state.typePro,
-                "desc": this.state.descPro
-            })
+            body: fd
         })
         .then(result => result.json())
         .then(result => {
-            if(result.msg){
+            if(result.message){
                 this.setState({
                     isPopup: false
                 }, () => this.getListProduct())
@@ -195,7 +204,8 @@ class ProductProvider extends Component {
                 removeProduct: this.removeProduct,
                 handleChange: this.handleChange,
                 handleCreateProduct: this.handleCreateProduct,
-                handleUpdate: this.handleUpdate
+                handleUpdate: this.handleUpdate,
+                handleSelectImage: this.handleSelectImage
             }}>
             { this.props.children }
             </ProductContext.Provider>
