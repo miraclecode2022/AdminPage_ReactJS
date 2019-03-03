@@ -1,5 +1,5 @@
 export let VerifyToken = (token) => {
-    return fetch(`http://localhost:8080/users/verify`, {
+    return fetch(`https://coffee-code-6868.herokuapp.com/users/verify`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

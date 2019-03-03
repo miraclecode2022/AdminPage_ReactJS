@@ -34,7 +34,7 @@ class ProductTable extends Component {
                                     c.products && c.products.length ? c.products.map((d) => {
                                         return(
                                             <tr key={d._id}>
-                                                <td>{d.image}</td>
+                                                <td><img src={d.image} className="product-thumbnail" /></td>
                                                 <td>{d.name}</td>
                                                 <td>{c.typeProduct(d.type)}</td>
                                                 <td>${d.price}</td>

@@ -93,7 +93,7 @@ class UserProvider extends Component {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        fetch(`http://localhost:8080/users/${id}` , {
+                        fetch(`https://coffee-code-6868.herokuapp.com/users/${id}` , {
                             method: "DELETE",
                             headers: {
                                 "Content-Type" : "application/json",

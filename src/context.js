@@ -42,7 +42,7 @@ class ReactProvider extends Component {
     handleSubmit = (e) => {
         this.setState({ isLoading: true })
         e.preventDefault()
-        fetch(`http://localhost:8080/users/login` , {
+        fetch(`https://coffee-code-6868.herokuapp.com/users/login` , {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json"

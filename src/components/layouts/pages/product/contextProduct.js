@@ -37,7 +37,7 @@ class ProductProvider extends Component {
     }
 
     getListProduct = () => {
-        fetch(`http://localhost:8080/products`, {
+        fetch(`https://coffee-code-6868.herokuapp.com/products`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -82,7 +82,7 @@ class ProductProvider extends Component {
     }
 
     getProductByID = (id) => {
-        fetch(`http://localhost:8080/products/${id}` , {
+        fetch(`https://coffee-code-6868.herokuapp.com/products/${id}` , {
             method: "GET",
             headers: {
                 "Content-Type" : "application/json"
@@ -112,7 +112,7 @@ class ProductProvider extends Component {
                 {
                     label: 'Yes',
                     onClick: () => {
-                        fetch(`http://localhost:8080/products/${id}` , {
+                        fetch(`https://coffee-code-6868.herokuapp.com/products/${id}` , {
                             method: "DELETE",
                             headers: {
                                 "Content-Type" : "application/json",
@@ -138,7 +138,6 @@ class ProductProvider extends Component {
     }
 
     handleCreateProduct = (e) => {
-        console.log(this.state)
         e.preventDefault()
         const fd = new FormData()
         fd.append("name", this.state.namePro)
@@ -146,7 +145,7 @@ class ProductProvider extends Component {
         fd.append("type", this.state.typePro)
         fd.append("desc", this.state.descPro)
         fd.append("image", this.state.imagePro)
-        fetch(`http://localhost:8080/products/create`, {
+        fetch(`https://coffee-code-6868.herokuapp.com/products/create`, {
             method: "POST",
             headers: {
                 "Authorization" : `Bearer ${localStorage.getItem("access_token")}`
@@ -175,7 +174,7 @@ class ProductProvider extends Component {
         fd.append("type", this.state.typePro)
         fd.append("desc", this.state.descPro)
         fd.append("image", this.state.imagePro)
-        fetch(`http://localhost:8080/products/${this.state.productId}`, {
+        fetch(`https://coffee-code-6868.herokuapp.com/products/${this.state.productId}`, {
             method: "PATCH",
             headers: {
                 "Authorization" : `Bearer ${localStorage.getItem("access_token")}`
