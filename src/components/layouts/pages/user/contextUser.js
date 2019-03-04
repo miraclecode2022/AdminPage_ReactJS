@@ -178,7 +178,6 @@ class UserProvider extends Component {
                 handleChange: this.handleChange,
                 handleCreate: this.handleCreate,
                 handleUpdate: this.handleUpdate,
-                removeProduct: this.removeProduct
                 
 
             }}>

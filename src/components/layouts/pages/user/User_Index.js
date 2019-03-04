@@ -4,10 +4,6 @@ import User_Table from './User_Table'
 import '../../../../css/Popup.scss'
 
 class User_Index extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <UserProvider>

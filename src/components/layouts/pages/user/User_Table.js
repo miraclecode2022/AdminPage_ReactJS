@@ -3,10 +3,6 @@ import { UserConsumer } from './contextUser'
 import '../../../../css/Popup.scss'
 
 class User_Table extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <UserConsumer>
@@ -65,10 +61,6 @@ class User_Table extends Component {
 
 
 class Popup extends Component {
-    constructor(props){
-        super(props)
-    }
-
     removeItem() {
         this.props.closePopup()
     }

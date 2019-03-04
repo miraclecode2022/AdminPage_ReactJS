@@ -3,6 +3,7 @@ import '../../../../css/Popup.scss'
 import { ProductConsumer } from './contextProduct'
 
 class ProductTable extends Component {
+    // eslint-disable-next-line
     constructor(props){
         super(props);
         this.state = {
@@ -34,7 +35,7 @@ class ProductTable extends Component {
                                     c.products && c.products.length ? c.products.map((d) => {
                                         return(
                                             <tr key={d._id}>
-                                                <td><img src={d.image} className="product-thumbnail" /></td>
+                                                <td><img src={d.image} className="product-thumbnail" alt={d.name} /></td>
                                                 <td>{d.name}</td>
                                                 <td>{c.typeProduct(d.type)}</td>
                                                 <td>${d.price}</td>
@@ -71,6 +72,7 @@ class ProductTable extends Component {
 }
 
 class Popup extends Component {
+    // eslint-disable-next-line
     constructor(props){
         super(props)
         this.state = {

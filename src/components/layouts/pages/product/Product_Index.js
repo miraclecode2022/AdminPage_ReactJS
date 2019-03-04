@@ -4,10 +4,6 @@ import { ProductProvider, ProductConsumer } from './contextProduct'
 import '../../../../css/Popup.scss'
 
 class Product_Index extends Component {
-    constructor(props){
-        super(props)
-    }
-
     render() {
         return (
             <ProductProvider>
