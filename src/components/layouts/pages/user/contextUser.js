@@ -15,6 +15,7 @@ class UserProvider extends Component {
             nameUser: "",
             emailUser: "",
             password: "",
+            imageUser: null
         }
     }
 
@@ -43,6 +44,11 @@ class UserProvider extends Component {
     handleChange = (e) => {
         this.setState({
             [e.target.name] : e.target.value
+        })
+    }
+    handleSelectImage = (e) => {
+        this.setState({
+            imageUser : e.target.files[0]
         })
     }
 
@@ -120,16 +126,19 @@ class UserProvider extends Component {
 
     handleUpdate = (e) => {
         e.preventDefault()
+        const fd = new FormData()
+        fd.append("name", this.state.nameUser)
+        fd.append("email", this.state.emailUser)
+        fd.append("password", this.state.password)
+        fd.append("image", this.state.imageUser)
         fetch(`https://coffee-code-6868.herokuapp.com/users/${this.state.userId}`, {
             method: "PATCH",
             headers: {
-                "Content-Type" : "application/json",
+                // "Content-Type" : "application/json",
                 "Authorization" : `Bearer ${localStorage.getItem("access_token")}`
             },
-            body: JSON.stringify({
-                name: this.state.nameUser,
-                email: this.state.emailUser
-            })
+            mimeType: "multipart/form-data",
+            body: fd
         })
         .then(result => result.json())
         .then(result => {
@@ -144,17 +153,18 @@ class UserProvider extends Component {
 
     handleCreate = (e) => {
         e.preventDefault()
-        fetch(`https://coffee-code-6868.herokuapp.com/users/register`, {
+        const fd = new FormData()
+        fd.append("name", this.state.nameUser)
+        fd.append("email", this.state.emailUser)
+        fd.append("password", this.state.password)
+        fd.append("image", this.state.imageUser)
+        fetch(`http://localhost:8080/users/register`, {
             method: "POST",
             headers: {
-                "Content-Type" : "application/json",
                 "Authorization" : `Bearer ${localStorage.getItem("access_token")}`
             },
-            body: JSON.stringify({
-                "name": this.state.nameUser,
-                "email": this.state.emailUser,
-                "password": this.state.password
-            })
+            mimeType: "multipart/form-data" ,
+            body: fd
         })
         .then(result => result.json())
         .then(result => {
@@ -178,8 +188,7 @@ class UserProvider extends Component {
                 handleChange: this.handleChange,
                 handleCreate: this.handleCreate,
                 handleUpdate: this.handleUpdate,
-                
-
+                handleSelectImage: this.handleSelectImage
             }}>
             { this.props.children }
             </UserContext.Provider>

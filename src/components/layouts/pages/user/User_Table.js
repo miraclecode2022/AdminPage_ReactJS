@@ -3,6 +3,14 @@ import { UserConsumer } from './contextUser'
 import '../../../../css/Popup.scss'
 
 class User_Table extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            users: [],
+            isPopup: false,
+            userId: ""
+        }
+    }
     render() {
         return (
             <UserConsumer>
@@ -13,6 +21,7 @@ class User_Table extends Component {
                             <table className="table table-sm table-hover table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>Image</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Action</th>
@@ -25,6 +34,7 @@ class User_Table extends Component {
                                     c.users.map((d) => {
                                         return(
                                             <tr key={d._id}>
+                                                <td><img src={d.image} className="product-thumbnail" alt={d.name} /></td>
                                                 <td>{d.name}</td>
                                                 <td>{d.email}</td>
                                                 <td>
@@ -89,7 +99,12 @@ class Popup extends Component {
                                         </div>
                                         <div className="form-group col-md-12">
                                             <label htmlFor="password">Password</label>
-                                            <input type="password" className="form-control" id="password" name="password" placeholder="Password" onChange={c.handleChange} required />
+                                            <input type="text" className="form-control" id="password" name="password" placeholder="Password" onChange={c.handleChange} value={c.password} />
+                                        </div>
+
+                                        <div className="form-group col-md-12">
+                                            <label htmlFor="imageUser">Image</label> <br/>
+                                            <input type="file" name="imageUser" id="imageUser" onChange={c.handleSelectImage} />
                                         </div>
                                     </div>
                                     <button type="submit" className="btn btn-primary">{c.isUpdate ? "Update": "Add"}</button>
