@@ -185,7 +185,8 @@ class ProductProvider extends Component {
         .then(result => {
             if(result.message){
                 this.setState({
-                    isPopup: false
+                    isPopup: false,
+                    imagePro: null
                 }, () => this.getListProduct())
             }
         })
