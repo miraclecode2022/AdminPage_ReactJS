@@ -97,11 +97,15 @@ class Popup extends Component {
                                             <label htmlFor="emailUser">Email</label>
                                             <input type="text" className="form-control" id="emailUser" name="emailUser" placeholder="Email" onChange={c.handleChange} value={c.emailUser} />
                                         </div>
-                                        <div className="form-group col-md-12">
-                                            <label htmlFor="password">Password</label>
-                                            <input type="text" className="form-control" id="password" name="password" placeholder="Password" onChange={c.handleChange} value={c.password} />
-                                        </div>
-
+                                        {
+                                            c.isUpdate ?
+                                             null
+                                            : 
+                                            <div className="form-group col-md-12">
+                                                <label htmlFor="password">Password</label>
+                                                <input type="text" className="form-control" id="password" name="password" placeholder="Password" onChange={c.handleChange} value={c.password} />
+                                            </div>
+                                        }
                                         <div className="form-group col-md-12">
                                             <label htmlFor="imageUser">Image</label> <br/>
                                             <input type="file" name="imageUser" id="imageUser" onChange={c.handleSelectImage} />

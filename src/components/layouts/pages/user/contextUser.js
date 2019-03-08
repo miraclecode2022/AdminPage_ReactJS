@@ -129,21 +129,23 @@ class UserProvider extends Component {
         const fd = new FormData()
         fd.append("name", this.state.nameUser)
         fd.append("email", this.state.emailUser)
-        fd.append("password", this.state.password)
         fd.append("image", this.state.imageUser)
-        fetch(`https://coffee-code-6868.herokuapp.com/users/${this.state.userId}`, {
+        fetch(`http://localhost:8080/users/${this.state.userId}`, {
             method: "PATCH",
             headers: {
                 // "Content-Type" : "application/json",
                 "Authorization" : `Bearer ${localStorage.getItem("access_token")}`
             },
-            mimeType: "multipart/form-data",
+            // mimeType: "multipart/form-data",
             body: fd
         })
         .then(result => result.json())
         .then(result => {
-            if(result.msg){
-                this.getListUser()
+            if(result.status){
+                this.setState({
+                    isPopup: false,
+                    image : null
+                }, () => this.getListUser())
             }
         })
         .catch(err => {
@@ -170,7 +172,7 @@ class UserProvider extends Component {
         .then(result => {
             if(result.status){
                 this.setState({
-                    isPopup: false
+                    isPopup: false,
                 }, () => this.getListUser())
             }
         })
