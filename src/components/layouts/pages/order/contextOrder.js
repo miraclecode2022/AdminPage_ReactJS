@@ -56,14 +56,14 @@ class OrderProvider extends Component {
         })
         .then(result => result.json())
         .then(result => {
-            console.log(result);
             if(result.count > 0){
+                console.log(result)
                 this.setState({ 
-                    status: "",
                     orders : result.orders,
                     customer : result.customer
                 })
             }
+            
         })
         .catch(err => {
             console.log(err)
@@ -130,7 +130,8 @@ class OrderProvider extends Component {
         .then(result => {
             if(result.order){
                 this.setState({
-                    
+                    status: "",
+                    orders : result.orders,
                 })
             }
             console.log(result.order);
