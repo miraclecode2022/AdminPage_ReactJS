@@ -29,13 +29,12 @@ class OrderTable extends Component {
                                 <tbody>
                                 {
                                     c.orders ? c.orders.map((d) => {
-                                        console.log(d[Object.keys(d)]);
                                         return(
                                             <tr key={d._id}>
                                                 <td>{c.typeOrder(d.status)}</td>
                                                 <td>{c.timeSince(d.date)}</td>
                                                 <td>
-                                                    <button className="btn btn-primary mr-1" name="btnUpdate" onClick={() => c.togglePopup(d._id, true)} type="button">Detail</button>
+                                                    <button className="btn btn-primary mr-1" name="btnDetail" onClick={() => c.togglePopup(d._id, true)} type="button" >Detail</button>
                                                     {/* <button className="btn btn-danger" name="btnRemove" type="button" onClick={() => c.removeProduct(d._id)} >Remove</button> */}
                                                 </td>
                                             </tr>
@@ -50,13 +49,13 @@ class OrderTable extends Component {
                                 }
                                 </tbody>
                             </table>
-                            {/* {
+                            {
                                 c.isPopup
                                 ?
                                     <Popup closePopup={() => c.togglePopup(c.orderId, null)} orderId={c.orderId} />
                                 :
                                     null
-                            } */}
+                            }
                         </div>
                     )
                 }
@@ -65,5 +64,106 @@ class OrderTable extends Component {
         );
     }
 }
+class Popup extends Component {
+    // eslint-disable-next-line
+    constructor(props){
+        super(props)
+        this.state = {
+            order: []
+        }
+    }
 
+    removeItem() {
+        this.props.closePopup()
+    }
+    
+    render() {
+        return(
+            <OrderConsumer>
+            {
+                (c) => {
+                    return(
+                        <div className='popup'>
+                            <div className='popup_inner'>
+                                <div className="popup_header">
+                                    <h2>{c.typePopup ? "Order Detail" : "Add New Product"}</h2>
+                                    <span onClick={this.props.closePopup}><i className="fa fa-close fa-2x"></i></span>
+                                </div>
+                                <form onSubmit={c.typePopup ? c.handleUpdate : c.handleCreateProduct}>
+                                    <div className="form-row">
+                                        <div className="form-group col-md-6">
+                                            <label htmlFor="namePro">Customer Name : </label>
+                                            <span> { c.firstname + " " + c.lastname  } </span>
+                                        </div>
+                                        <div className="form-group col-md-6">
+                                            <label htmlFor="pricePro">Address : </label>
+                                            <span> { c.address } </span>
+                                        </div>
+                                        <div className="form-group col-md-6">
+                                            <label htmlFor="descPro">District : </label>
+                                            <span> { c.district } </span>
+                                        </div>
+                                        <div className="form-group col-md-6">
+                                            <label htmlFor="typePro">City : </label>
+                                            <span> { c.city } </span>
+                                        </div>
+                                        <div className="form-group col-md-6">
+                                            <label htmlFor="typePro">Phone : </label>
+                                            <span> { c.phone } </span>
+                                        </div>
+                                        <div className="form-group col-md-6">
+                                            <label htmlFor="typePro">Email : </label>
+                                            <span> { c.email } </span>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        {
+                                            c.order.products ? c.order.products.map(d => {
+                                                // return (
+                                                //     <div className="form-group col-md-6">
+                                                //     <label> Name : </label>
+                                                //     <span> {   } </span>
+                                                // </div>
+                                                // )
+                                                // console.log(d)
+                                                return (
+                                                    <div key={d._id}>
+                                                        <span> {d.count} </span>
+                                                        <span> {d.total} </span>
+                                                        {/* {c.getProductByID(d._id)} */}
+                                                        { c.getProductByID(d._id)
+                                                            .then(x => x.json()
+                                                            .then(x => <span>{x.product.name}</span>)
+                                                            ) }
+                                                        {/* {c.getProductByID(d._id).map(x => {
+                                                            return (
+                                                                <div>
+                                                                    <span> {x.product.name} </span>
+                                                                    <img src={x.image} alt={x.name} />
+                                                                </div>
+                                                            )
+                                                        })} */}
+                                                    </div>
+                                                    
+                                                )
+                                                
+                                               
+                                            })
+                                            :
+                                            <div className="form-group col-md-12">
+                                            <label> Not Found Product </label>
+                                        </div>
+                                        }
+                                    </div>
+                                    {/* <button type="submit" className="btn btn-primary">{c.typePopup ? "Update" : "Add"}</button> */}
+                                </form>
+                            </div>
+                        </div>
+                    )
+                }
+            }
+            </OrderConsumer>
+        )
+    }
+}
 export default OrderTable;

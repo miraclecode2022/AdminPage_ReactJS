@@ -9,6 +9,7 @@ class OrderProvider extends Component {
         super(props);
         this.state = {
             orders: [],
+            order : [], // giá trị của 1 phiếu
             isPopup: false,
             typePopup: false,
             orderId: "",
@@ -57,7 +58,6 @@ class OrderProvider extends Component {
         .then(result => result.json())
         .then(result => {
             if(result.count > 0){
-                console.log(result)
                 this.setState({ 
                     orders : result.orders,
                     customer : result.customer
@@ -85,7 +85,7 @@ class OrderProvider extends Component {
         const date =  datum/1000;
         var seconds = Math.floor(((new Date().getTime()/1000) - date)),
         interval = Math.floor(seconds / 31536000);
-        console.log(seconds);
+        
         if (interval > 1) return interval + "y";
     
         interval = Math.floor(seconds / 2592000);
@@ -104,6 +104,9 @@ class OrderProvider extends Component {
     }
 
     togglePopup = (id, isEdit) => {
+        // this.state.orders.filter(x => x._id === id).map(d => {
+        //     order : d
+        // }) ví dụ filter
         this.setState({
             isPopup: !this.state.isPopup,
             orderId: id,
@@ -128,19 +131,42 @@ class OrderProvider extends Component {
         })
         .then(result => result.json())
         .then(result => {
-            if(result.order){
+            if(result){
                 this.setState({
                     status: "",
-                    orders : result.orders,
+                    order : result.order,
+                    products : result.products,
+                    firstname: result.order.customer.firstname,
+                    lastname: result.order.customer.lastname,
+                    address: result.order.customer.address,
+                    city: result.order.customer.city,
+                    district: result.order.customer.district,
+                    phone: result.order.customer.phone,
+                    email: result.order.customer.email,
                 })
             }
-            console.log(result.order);
         })
         .catch(err => {
             console.log(err)
         })
     }
-
+    getProductByID = (id) => {
+        return fetch(`https://coffee-code-6868.herokuapp.com/products/${id}` , {
+            method: "GET",
+            headers: {
+                "Content-Type" : "application/json"
+            }
+        })
+        .then(result => result.json())
+        .then(result => {
+            if(result){
+                return result
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
 
     render() {
         return (
@@ -149,8 +175,8 @@ class OrderProvider extends Component {
                     ...this.state,
                     togglePopup: this.togglePopup,
                     typeOrder: this.typeOrder,
-                    timeSince : this.timeSince
-                    
+                    timeSince : this.timeSince,
+                    getProductByID : this.getProductByID
                 }}>
                 { this.props.children }
             </OrderContext.Provider>
