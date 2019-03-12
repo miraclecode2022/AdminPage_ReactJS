@@ -158,7 +158,7 @@ class OrderProvider extends Component {
             }
         })
         .then(result => result.json())
-        .then(result => {
+        .then(result => {  
             if(result){
                 return result
             }
