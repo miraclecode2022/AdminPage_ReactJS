@@ -9,7 +9,11 @@ class OrderProvider extends Component {
         super(props);
         this.state = {
             orders: [],
+<<<<<<< HEAD
             order: [],
+=======
+            order : [], // giá trị của 1 phiếu
+>>>>>>> 4a0c482761118076486e6347eca4c98e43e6718b
             isPopup: false,
             typePopup: false,
             orderId: "",
@@ -81,6 +85,7 @@ class OrderProvider extends Component {
     timeSince = (time) => {
         time.replace(/T/, ' ').replace(/\..+/, '')
         const datum = Date.parse(time);
+<<<<<<< HEAD
         const timeStamp =  datum/1000;
         var a = new Date(timeStamp * 1000);
         var months = ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
@@ -100,6 +105,33 @@ class OrderProvider extends Component {
             order: d
         }, () => console.log(this.state.order)))
         // console.log(getCus.customer)
+=======
+        const date =  datum/1000;
+        var seconds = Math.floor(((new Date().getTime()/1000) - date)),
+        interval = Math.floor(seconds / 31536000);
+        
+        if (interval > 1) return interval + "y";
+    
+        interval = Math.floor(seconds / 2592000);
+        if (interval > 1) return interval + "m";
+    
+        interval = Math.floor(seconds / 86400);
+        if (interval >= 1) return interval + "d";
+    
+        interval = Math.floor(seconds / 3600);
+        if (interval >= 1) return interval + "h";
+    
+        interval = Math.floor(seconds / 60);
+        if (interval > 1) return interval + "m ";
+    
+        return Math.floor(seconds) + "s";
+    }
+
+    togglePopup = (id, isEdit) => {
+        // this.state.orders.filter(x => x._id === id).map(d => {
+        //     order : d
+        // }) ví dụ filter
+>>>>>>> 4a0c482761118076486e6347eca4c98e43e6718b
         this.setState({
             isPopup: !this.state.isPopup,
             orderId: id,
@@ -124,19 +156,42 @@ class OrderProvider extends Component {
         })
         .then(result => result.json())
         .then(result => {
-            if(result.order){
+            if(result){
                 this.setState({
                     status: "",
-                    orders : result.orders,
+                    order : result.order,
+                    products : result.products,
+                    firstname: result.order.customer.firstname,
+                    lastname: result.order.customer.lastname,
+                    address: result.order.customer.address,
+                    city: result.order.customer.city,
+                    district: result.order.customer.district,
+                    phone: result.order.customer.phone,
+                    email: result.order.customer.email,
                 })
             }
-            console.log(result.order);
         })
         .catch(err => {
             console.log(err)
         })
     }
-
+    getProductByID = (id) => {
+        return fetch(`https://coffee-code-6868.herokuapp.com/products/${id}` , {
+            method: "GET",
+            headers: {
+                "Content-Type" : "application/json"
+            }
+        })
+        .then(result => result.json())
+        .then(result => {
+            if(result){
+                return result
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
 
     render() {
         return (
@@ -145,8 +200,8 @@ class OrderProvider extends Component {
                     ...this.state,
                     togglePopup: this.togglePopup,
                     typeOrder: this.typeOrder,
-                    timeSince : this.timeSince
-                    
+                    timeSince : this.timeSince,
+                    getProductByID : this.getProductByID
                 }}>
                 { this.props.children }
             </OrderContext.Provider>
