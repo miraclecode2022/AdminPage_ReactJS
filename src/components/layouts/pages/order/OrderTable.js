@@ -35,7 +35,7 @@ class OrderTable extends Component {
                                                 <td className={`status ${d.status ? 'done' : 'not-yet'}`}>{c.typeOrder(d.status)}</td>
                                                 <td>{c.timeSince(d.date)}</td>
                                                 <td>
-                                                    <button className="btn btn-primary mr-1" name="btnDetail" onClick={() => c.togglePopup(d._id, true)} type="button" >Detail</button>
+                                                    <button className="btn btn-primary mr-1" name="btnDetail" onClick={() => c.togglePopup(d._id, true, d.products)} type="button" >Detail</button>
                                                     {/* <button className="btn btn-danger" name="btnRemove" type="button" onClick={() => c.removeProduct(d._id)} >Remove</button> */}
                                                 </td>
                                             </tr>
@@ -120,35 +120,24 @@ class Popup extends Component {
                                     <div className="row">
                                         {
                                             c.order.products ? c.order.products.map(d => {
-                                                // return (
-                                                //     <div className="form-group col-md-6">
-                                                //     <label> Name : </label>
-                                                //     <span> {   } </span>
-                                                // </div>
-                                                // )
-                                                // console.log(d)
                                                 return (
                                                     <div key={d._id}>
                                                         <span> {d.count} </span>
                                                         <span> {d.total} </span>
-                                                        {/* {c.getProductByID(d._id)} */}
-                                                        { c.getProductByID(d._id)
-                                                            .then(x => x.json()
-                                                            .then(x => <span>{x.product.name}</span>)
-                                                            ) }
-                                                        {/* {c.getProductByID(d._id).map(x => {
-                                                            return (
-                                                                <div>
-                                                                    <span> {x.product.name} </span>
-                                                                    <img src={x.image} alt={x.name} />
-                                                                </div>
+                                                        {
+                                                            c.products && c.products.filter(x => x._id === d._id).map(d => {
+                                                                    console.log(d)
+                                                                    return(
+                                                                        <React.Fragment key={d._id}>
+                                                                            <img src={d.image} className="product-thumbnail" alt={d.name} />
+                                                                            <span>{d.name}</span>
+                                                                        </React.Fragment>
+                                                                    )
+                                                                }
                                                             )
-                                                        })} */}
+                                                        }
                                                     </div>
-                                                    
                                                 )
-                                                
-                                               
                                             })
                                             :
                                             <div className="form-group col-md-12">
