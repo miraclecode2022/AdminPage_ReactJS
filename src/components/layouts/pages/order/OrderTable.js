@@ -118,33 +118,43 @@ class Popup extends Component {
                                         </div>
                                     </div>
                                     <div className="row">
+                                            <span className="col-md-3">Image</span>
+                                            <span className="col-md-3">Name</span>
+                                            <span className="col-md-3">Amount</span>
+                                            <span className="col-md-3">Total</span>
                                         {
-                                            c.order.products ? c.order.products.map(d => {
-                                                return (
-                                                    <div key={d._id}>
-                                                        <span> {d.count} </span>
-                                                        <span> {d.total} </span>
-                                                        {
-                                                            c.products && c.products.filter(x => x._id === d._id).map(d => {
-                                                                    console.log(d)
-                                                                    return(
-                                                                        <React.Fragment key={d._id}>
-                                                                            <img src={d.image} className="product-thumbnail" alt={d.name} />
-                                                                            <span>{d.name}</span>
-                                                                        </React.Fragment>
-                                                                    )
-                                                                }
+                                        c.order.products ? c.order.products.map(d => {
+                                        return (
+                                        <tr>
+                                            <div key={d._id}>
+                                                {
+                                                    c.products && c.products.filter(x => x._id === d._id).map(d => {
+                                                        
+                                                            return(
+                                                                <tr>
+                                                                    <React.Fragment key={d._id}>
+                                                                <td><img src={d.image} className="product-thumbnail" alt={d.name} /></td>
+                                                                <td> {d.name} </td>
+                                                                    </React.Fragment>
+                                                                </tr>
+                                                            
                                                             )
                                                         }
-                                                    </div>
-                                                )
-                                            })
-                                            :
-                                            <div className="form-group col-md-12">
+                                                    )
+                                                }
+                                            </div>
+                                            <td> {d.count} </td>
+                                            <td> {d.total} </td>
+                                        </tr>
+                                        )
+                                    })
+                                        :
+                                        <div className="form-group col-md-12">
                                             <label> Not Found Product </label>
                                         </div>
                                         }
-                                    </div>
+                                </div>
+
                                     {/* <button type="submit" className="btn btn-primary">{c.typePopup ? "Update" : "Add"}</button> */}
                                 </form>
                             </div>
