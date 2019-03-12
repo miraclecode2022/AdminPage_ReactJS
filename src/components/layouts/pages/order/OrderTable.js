@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../../../css/Popup.scss'
+import './Order.scss'
 import { OrderConsumer } from './contextOrder'
 
 class OrderTable extends Component {
@@ -29,10 +30,9 @@ class OrderTable extends Component {
                                 <tbody>
                                 {
                                     c.orders ? c.orders.map((d) => {
-                                        console.log(d[Object.keys(d)]);
                                         return(
                                             <tr key={d._id}>
-                                                <td>{c.typeOrder(d.status)}</td>
+                                                <td className={`status ${d.status ? 'done' : 'not-yet'}`}>{c.typeOrder(d.status)}</td>
                                                 <td>{c.timeSince(d.date)}</td>
                                                 <td>
                                                     <button className="btn btn-primary mr-1" name="btnUpdate" onClick={() => c.togglePopup(d._id, true)} type="button">Detail</button>

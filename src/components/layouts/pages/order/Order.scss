@@ -1,0 +1,37 @@
+.status {
+    position: relative;
+    height: 100%;
+    width: auto;
+    text-align: center;
+    padding: auto;
+    border: 1px #ccc solid !important;
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: uppercase;s
+    &.done {
+        color: #2ed573 !important;
+        position: relative;
+        &::before{
+            font-family: FontAwesome;
+            content: "\f00c";
+            position: absolute;
+            top: auto;
+            left: auto;
+            transform: translate(-150%, 0);
+        }
+    }
+
+    &.not-yet {
+        color: #ff4757 !important;
+        font-weight: bold;
+        position: relative;
+        &::before{
+            font-family: FontAwesome;
+            content: "\f00d";
+            position: absolute;
+            top: auto;
+            left: auto;
+            transform: translate(-150%, 0);
+        }
+    }
+}

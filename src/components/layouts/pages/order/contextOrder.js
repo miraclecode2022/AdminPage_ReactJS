@@ -9,6 +9,7 @@ class OrderProvider extends Component {
         super(props);
         this.state = {
             orders: [],
+            order: [],
             isPopup: false,
             typePopup: false,
             orderId: "",
@@ -57,10 +58,8 @@ class OrderProvider extends Component {
         .then(result => result.json())
         .then(result => {
             if(result.count > 0){
-                console.log(result)
                 this.setState({ 
-                    orders : result.orders,
-                    customer : result.customer
+                    orders : result.orders
                 })
             }
             
@@ -82,28 +81,25 @@ class OrderProvider extends Component {
     timeSince = (time) => {
         time.replace(/T/, ' ').replace(/\..+/, '')
         const datum = Date.parse(time);
-        const date =  datum/1000;
-        var seconds = Math.floor(((new Date().getTime()/1000) - date)),
-        interval = Math.floor(seconds / 31536000);
-        console.log(seconds);
-        if (interval > 1) return interval + "y";
-    
-        interval = Math.floor(seconds / 2592000);
-        if (interval > 1) return interval + "m";
-    
-        interval = Math.floor(seconds / 86400);
-        if (interval >= 1) return interval + "d";
-    
-        interval = Math.floor(seconds / 3600);
-        if (interval >= 1) return interval + "h";
-    
-        interval = Math.floor(seconds / 60);
-        if (interval > 1) return interval + "m ";
-    
-        return Math.floor(seconds) + "s";
+        const timeStamp =  datum/1000;
+        var a = new Date(timeStamp * 1000);
+        var months = ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var sec = a.getSeconds();
+        var time = date + ' ' + month + ' ' + year + ' - ' + hour + ':' + min + ':' + sec ;
+        return time;
     }
 
     togglePopup = (id, isEdit) => {
+        // const getCus = 
+        this.state.orders.filter(x => x._id === id).map(d => this.setState({
+            order: d
+        }, () => console.log(this.state.order)))
+        // console.log(getCus.customer)
         this.setState({
             isPopup: !this.state.isPopup,
             orderId: id,
