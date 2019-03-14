@@ -117,44 +117,46 @@ class Popup extends Component {
                                             <span> { c.email } </span>
                                         </div>
                                     </div>
-                                    <div className="row">
-                                            <span className="col-md-3">Image</span>
-                                            <span className="col-md-3">Name</span>
-                                            <span className="col-md-3">Amount</span>
-                                            <span className="col-md-3">Total</span>
-                                        {
-                                        c.order.products ? c.order.products.map(d => {
-                                        return (
-                                        <tr>
-                                            <div key={d._id}>
-                                                {
-                                                    c.products && c.products.filter(x => x._id === d._id).map(d => {
-                                                        
+                                    <div className="table-reponsive center">
+                                        <table className="table text-center">
+                                            <thead className="thead-dark">
+                                            <tr>
+                                                <th>Image</th>
+                                                <th>Name</th>
+                                                <th>Amount</th>
+                                                <th>Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {
+                                                c.order.products ? c.order.products.map(d => {
+                                                    return (
+                                                        <tr key={d._id}>
+                                                            {
+                                                            c.products && c.products.filter(x => x._id === d._id).map(d => {            
                                                             return(
-                                                                <tr>
-                                                                    <React.Fragment key={d._id}>
-                                                                <td><img src={d.image} className="product-thumbnail" alt={d.name} /></td>
-                                                                <td> {d.name} </td>
-                                                                    </React.Fragment>
-                                                                </tr>
-                                                            
+                                                                <React.Fragment key={d._id}>
+                                                                    <td><img src={d.image} className="product-thumbnail" alt={d.name} /> </td>
+                                                                    <td> { d.name } </td>
+                                                                </React.Fragment>
+                                                                  )
+                                                                })
+                                                            }
+                                                                    <td> {d.count} </td>
+                                                                    <td> {d.total} </td>
+                                                                                                
+                                                        </tr>
                                                             )
-                                                        }
-                                                    )
-                                                }
-                                            </div>
-                                            <td> {d.count} </td>
-                                            <td> {d.total} </td>
-                                        </tr>
-                                        )
-                                    })
-                                        :
-                                        <div className="form-group col-md-12">
-                                            <label> Not Found Product </label>
-                                        </div>
-                                        }
+                                                })
+                                                :
+                                                <tr>
+                                                    <td> Not Found Products </td>
+                                                </tr>
+                                                    
+                                            }
+                                            </tbody>
+                                        </table>
                                 </div>
-
                                     {/* <button type="submit" className="btn btn-primary">{c.typePopup ? "Update" : "Add"}</button> */}
                                 </form>
                             </div>
